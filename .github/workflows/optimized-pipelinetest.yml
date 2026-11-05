@@ -27,10 +27,11 @@ jobs:
       with:
         python-version: '3.11'
 
-    - name: Install Testing Dependencies
+    - name: Install System and Python Dependencies
       run: |
+        sudo apt-get update && sudo apt-get install -y libpq-dev
         python -m pip install --upgrade pip
-        pip install polars pydantic celery redis pytest
+        pip install polars psycopg[pool] pydantic celery redis pytest
 
     - name: Execute Automated Test Suite via Pytest
       env:
