@@ -45,7 +45,7 @@ def process_kafka_batch_with_polars(raw_json_messages: list) -> tuple[list, list
     spatial_mask = (pl.col("latitude").is_between(-90, 90)) & (pl.col("longitude").is_between(-180, 180))
     
     valid_df = df.filter(spatial_mask)
-    invalid_df = df.filter(spatial_mask.is_not())
+    invalid_df = df.filter(~spatial_mask)
 
     # 3. Format valid items for Redis serialization
     valid_records = []
