@@ -39,7 +39,7 @@ def process_kafka_batch_with_polars(raw_json_messages: list) -> tuple[list, list
 
     # Ensure timestamp column is cast properly to datetime types
     if df["timestamp"].dtype == pl.String:
-        df = df.with_columns(pl.col("timestamp").str.to_datetime())
+        df = df.with_columns(pl.col("timestamp").str.to_datetime(format="%Y-%m-%dT%H:%M:%SZ"))
 
     # 2. Vectorized checking using Rust-native execution speeds
     spatial_mask = (pl.col("latitude").is_between(-90, 90)) & (pl.col("longitude").is_between(-180, 180))
